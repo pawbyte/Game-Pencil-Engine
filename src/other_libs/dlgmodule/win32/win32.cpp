@@ -1,4 +1,4 @@
-﻿/*
+/*
 
  MIT License
 
@@ -26,24 +26,28 @@
 
 #define _WIN32_IE 0x0900
 
-#include "../../dlgmodule.h"
-
-#include <windows.h>
-#include <gdiplus.h>
-#include <shobjidl.h>
-#include <Commdlg.h>
-#include <commctrl.h>
-#include <comdef.h>
-#include <atlbase.h>
-#include <activscp.h>
-#include <Shlobj.h>
-
 #include <cstdlib>
 #include <cstdio>
 #include <cwchar>
 
 #include <vector>
 #include <string>
+
+#include "../../dlgmodule.h"
+
+#include <windows.h>
+#include <gdiplus.h>
+#include <shobjidl.h>
+#include <shlwapi.h>
+#include <Commdlg.h>
+#include <commctrl.h>
+#include <comdef.h>
+#ifdef _MSC_VER
+#include <atlbase.h>
+#include <activscp.h>
+#endif
+#include <Objbase.h>
+#include <Shlobj.h>
 
 using namespace Gdiplus;
 using std::basic_string;
@@ -572,8 +576,8 @@ using std::size_t;
       cpp_wstr_dir = widen(dir);
       cpp_wstr_title = widen(title);
 
-      wcsncpy_s(wstr_filter, cpp_wstr_filter.c_str(), 512);
-      wcsncpy_s(wstr_fname, cpp_wstr_fname.c_str(), 4096);
+      wcsncpy_s(wstr_filter, 512, cpp_wstr_filter.c_str(), 512);
+      wcsncpy_s(wstr_fname, 4096, cpp_wstr_fname.c_str(), 4096);
 
       int i = 0;
       while (wstr_filter[i] != '\0') {

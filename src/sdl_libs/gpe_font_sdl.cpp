@@ -158,8 +158,7 @@ namespace gpe
             characterPairs[")" ] = new font_pair_sdl(heldSDLFont,")" );
             if( isMonospaced == false)
             {
-                std::map<std::string,font_pair_sdl *>::iterator foundIterator;
-                foundIterator = characterPairs.find("9");
+                std::map<const std::string,font_pair_sdl *>::iterator foundIterator = characterPairs.find("9");
                 if( foundIterator!= characterPairs.end() )
                 {
                     font_pair_sdl * tempfont_pair_sdl = foundIterator->second;
@@ -192,7 +191,7 @@ namespace gpe
         }
         clear_cache();
         font_pair_sdl * tempfont_pair_sdl = NULL;
-        for (std::map<std::string,font_pair_sdl *>::iterator it=characterPairs.begin(); it!=characterPairs.end(); ++it)
+        for (std::map<const std::string,font_pair_sdl *>::iterator it=characterPairs.begin(); it!=characterPairs.end(); ++it)
         {
             tempfont_pair_sdl = it->second;
             if( tempfont_pair_sdl!=NULL)
@@ -208,7 +207,7 @@ namespace gpe
     void font_sdl_tff::clear_cache()
     {
         font_pair_sdl * tempfont_pair_sdl = NULL;
-        for (std::map<std::string,font_pair_sdl *>::iterator it=textPairs.begin(); it!=textPairs.end(); ++it)
+        for (std::map<const std::string,font_pair_sdl *>::iterator it=textPairs.begin(); it!=textPairs.end(); ++it)
         {
             tempfont_pair_sdl = it->second;
             if( tempfont_pair_sdl!=NULL)
@@ -315,8 +314,7 @@ namespace gpe
     {
         font_pair_sdl * fPair = NULL;
         SDL_Texture * fSDLTexture = NULL;
-        std::map<std::string,font_pair_sdl *>::iterator foundVal;
-        foundVal = characterPairs.find( numbId );
+        std::map<const std::string,font_pair_sdl *>::iterator foundVal = characterPairs.find( numbId );
         if( foundVal !=  characterPairs.end() )
         {
             fPair = foundVal->second;
@@ -346,8 +344,7 @@ namespace gpe
     {
         font_pair_sdl * fPair = NULL;
         SDL_Texture * fSDLTexture = NULL;
-        std::map< const std::string,font_pair_sdl *>::iterator foundVal;
-        foundVal = textPairs.find( textToRender );
+        std::map< const std::string,font_pair_sdl *>::iterator foundVal = textPairs.find( textToRender );
         if( foundVal !=  textPairs.end() )
         {
             return foundVal->second;

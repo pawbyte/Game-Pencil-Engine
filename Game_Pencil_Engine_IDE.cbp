@@ -16,29 +16,35 @@
 		<Build>
 			<Target title="Win32-Debug">
 				<Option platforms="Windows;" />
-				<Option output="bin/Debug/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option output="Game_Pencil_Engine_IDE_Debug" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-g" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
+					<Add directory="C:/msys64/mingw64/include" />
+					<Add directory="C:/msys64/mingw32/include" />
 				</Compiler>
 				<Linker>
-					<Add library="SDL2" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_image" />
-					<Add library="SDL2_ttf" />
-					<Add library="SDL2_mixer" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
 					<Add library="mingw32" />
 					<Add library="Comdlg32" />
 					<Add library="gdi32" />
+					<Add library="gdiplus" />
 					<Add library="comctl32" />
+					<Add library="shlwapi" />
+					<Add library="ole32" />
+					<Add library="gmon" />
+					<Add directory="C:/msys64/mingw64/lib" />
+					<Add directory="C:/msys64/mingw32/lib" />
 				</Linker>
 			</Target>
 			<Target title="Win32-Release">
 				<Option platforms="Windows;" />
-				<Option output="bin/Release/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option output="Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -46,143 +52,199 @@
 					<Add option="-O2" />
 					<Add option="-Wfatal-errors" />
 					<Add option="-Wextra" />
+					<Add option="-std=c++17" />
 					<Add option="-pg" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
+					<Add directory="C:/msys64/mingw64/include" />
+					<Add directory="C:/msys64/mingw32/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
-					<Add library="SDL2" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_image" />
-					<Add library="SDL2_ttf" />
-					<Add library="SDL2_mixer" />
-					<Add library="procps" />
+					<Add option="-pg -lgmon" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add library="mingw32" />
+					<Add library="Comdlg32" />
+					<Add library="gdi32" />
+					<Add library="gdiplus" />
+					<Add library="comctl32" />
+					<Add library="shlwapi" />
+					<Add library="ole32" />
+					<Add library="gmon" />
+					<Add directory="C:/msys64/mingw64/lib" />
+					<Add directory="C:/msys64/mingw32/lib" />
 				</Linker>
 			</Target>
 			<Target title="MacOS-Debug">
-				<Option platforms="Mac;" />
-				<Option output="bin/Debug/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option platforms="Unix;" />
+				<Option output="Game_Pencil_Engine_IDE_Debug" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-std=c++17" />
+					<Add option="-g" />
+					<Add option="-ObjC++" />
+					<Add option="-Wno-c++11-narrowing" />
+					<Add directory="/usr/local/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add option="-F/System/Library/Frameworks" />
+					<Add option="-framework Cocoa" />
+					<Add library="objc" />
+					<Add directory="/usr/local/lib" />
+				</Linker>
+			</Target>
+			<Target title="MacOS-Release">
+				<Option platforms="Unix;" />
+				<Option output="Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-std=c++17" />
+					<Add option="-O2" />
+					<Add option="-Wfatal-errors" />
+					<Add option="-Wextra" />
+					<Add option="-pg" />
+					<Add option="-ObjC++" />
+					<Add option="-Wno-c++11-narrowing" />
+					<Add directory="/usr/local/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add option="-F/System/Library/Frameworks" />
+					<Add option="-framework Cocoa" />
+					<Add library="objc" />
+					<Add directory="/usr/local/lib" />
+				</Linker>
+			</Target>
+			<Target title="XQuartz-Debug">
+				<Option platforms="Unix;" />
+				<Option output="Game_Pencil_Engine_IDE_Debug" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-g" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
+					<Add directory="/usr/local/include" />
+					<Add directory="/opt/X11/include/X11" />
 				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add library="X11" />
+					<Add directory="/usr/local/lib" />
+					<Add directory="/opt/X11/lib" />
+				</Linker>
 			</Target>
-			<Target title="MacOS-Release">
-				<Option platforms="Mac;" />
-				<Option output="bin/Release/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+			<Target title="XQuartz-Release">
+				<Option platforms="Unix;" />
+				<Option output="Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-O2" />
 					<Add option="-Wfatal-errors" />
 					<Add option="-Wextra" />
 					<Add option="-pg" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
+					<Add directory="/usr/local/include" />
+					<Add directory="/opt/X11/include/X11" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add library="X11" />
+					<Add directory="/usr/local/lib" />
+					<Add directory="/opt/X11/lib" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Debug">
 				<Option platforms="Unix;" />
-				<Option output="bin/Debug/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option output="Game_Pencil_Engine_IDE_Debug" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-g" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
 				</Compiler>
 				<Linker>
-					<Add library="SDL2" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_image" />
-					<Add library="SDL2_ttf" />
-					<Add library="SDL2_mixer" />
-					<Add library="procps" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
 					<Add library="X11" />
+					<Add library="procps" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Release">
 				<Option platforms="Unix;" />
-				<Option output="bin/Release/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option output="Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-O2" />
 					<Add option="-Wfatal-errors" />
 					<Add option="-Wextra" />
 					<Add option="-pg" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
-					<Add library="SDL2" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_image" />
-					<Add library="SDL2_ttf" />
-					<Add library="SDL2_mixer" />
-					<Add library="procps" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
 					<Add library="X11" />
+					<Add library="procps" />
 				</Linker>
 			</Target>
 			<Target title="FreeBSD-Debug">
 				<Option platforms="Unix;" />
-				<Option output="bin/Debug/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option output="Game_Pencil_Engine_IDE_Debug" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-g" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
 				</Compiler>
 				<Linker>
-					<Add library="SDL2" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_image" />
-					<Add library="SDL2_ttf" />
-					<Add library="SDL2_mixer" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add library="X11" />
 					<Add library="util" />
 					<Add library="c" />
-					<Add library="X11" />
 				</Linker>
 			</Target>
 			<Target title="FreeBSD-Release">
 				<Option platforms="Unix;" />
-				<Option output="bin/Release/Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
+				<Option output="Game_Pencil_Engine_IDE" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++17" />
 					<Add option="-O2" />
 					<Add option="-Wfatal-errors" />
 					<Add option="-Wextra" />
 					<Add option="-pg" />
-					<Add directory="C:/Users/SirNathanHurde/OneDrive/Documents/gpe_crossplatform/Game_Pencil_Engine_IDE/" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
-					<Add library="SDL2" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_image" />
-					<Add library="SDL2_ttf" />
-					<Add library="SDL2_mixer" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+					<Add library="X11" />
 					<Add library="util" />
 					<Add library="c" />
-					<Add library="X11" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="resource.rc">
-			<Option compilerVar="WINDRES" />
-			<Option target="Win32-Debug" />
-			<Option target="Win32-Release" />
-		</Unit>
 		<Unit filename="src/game_state_credits_base.cpp" />
 		<Unit filename="src/game_state_load.cpp" />
 		<Unit filename="src/game_state_load.h" />
@@ -382,11 +444,7 @@
 		<Unit filename="src/gpe_editor/video_resource.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/other_libs/dlgmodule.h" />
-		<Unit filename="src/other_libs/dlgmodule/macos/buttons.h">
-			<Option target="MacOS-Debug" />
-			<Option target="MacOS-Release" />
-		</Unit>
-		<Unit filename="src/other_libs/dlgmodule/macos/cocoa.mm">
+		<Unit filename="src/other_libs/dlgmodule/macos/macos.mm">
 			<Option compile="1" />
 			<Option link="1" />
 			<Option target="MacOS-Debug" />
@@ -400,23 +458,25 @@
 			<Option target="MacOS-Debug" />
 			<Option target="MacOS-Release" />
 		</Unit>
-		<Unit filename="src/other_libs/dlgmodule/macos/macos.cpp">
-			<Option target="MacOS-Debug" />
-			<Option target="MacOS-Release" />
-		</Unit>
 		<Unit filename="src/other_libs/dlgmodule/unix/lodepng.cpp">
+			<Option target="XQuartz-Debug" />
+			<Option target="XQuartz-Release" />
 			<Option target="Linux-Debug" />
 			<Option target="Linux-Release" />
 			<Option target="FreeBSD-Debug" />
 			<Option target="FreeBSD-Release" />
 		</Unit>
 		<Unit filename="src/other_libs/dlgmodule/unix/lodepng.h">
+			<Option target="XQuartz-Debug" />
+			<Option target="XQuartz-Release" />
 			<Option target="Linux-Debug" />
 			<Option target="Linux-Release" />
 			<Option target="FreeBSD-Debug" />
 			<Option target="FreeBSD-Release" />
 		</Unit>
 		<Unit filename="src/other_libs/dlgmodule/unix/unix.cpp">
+			<Option target="XQuartz-Debug" />
+			<Option target="XQuartz-Release" />
 			<Option target="Linux-Debug" />
 			<Option target="Linux-Release" />
 			<Option target="FreeBSD-Debug" />
@@ -503,6 +563,11 @@
 		<Unit filename="src/pawgui/pawgui_theme_controller.h" />
 		<Unit filename="src/pawgui/pawgui_themes.cpp" />
 		<Unit filename="src/pawgui/pawgui_themes.h" />
+		<Unit filename="src/resource.rc">
+			<Option compilerVar="WINDRES" />
+			<Option target="Win32-Debug" />
+			<Option target="Win32-Release" />
+		</Unit>
 		<Unit filename="src/sdl_libs/gpe_artist_sdl.cpp" />
 		<Unit filename="src/sdl_libs/gpe_artist_sdl.h" />
 		<Unit filename="src/sdl_libs/gpe_audio_sdl_mixer.cpp" />
@@ -534,9 +599,7 @@
 		<Unit filename="src/sdl_libs/sdl_surface_ex.cpp" />
 		<Unit filename="src/sdl_libs/sdl_surface_ex.h" />
 		<Extensions>
-			<code_completion>
-				<search_path add="C:\Users\SirNathanHurde\OneDrive\Documents\gpe_crossplatform\Game_Pencil_Engine_IDE\" />
-			</code_completion>
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

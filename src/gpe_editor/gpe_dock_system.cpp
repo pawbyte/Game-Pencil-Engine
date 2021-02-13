@@ -493,12 +493,12 @@ void gpeEditorDock::add_to_panel( std::string name, int panelId, bool open, bool
             if( panelId < DOCK_MAX_COLUMN_COUNT )
             {
                 panelHeightPercentages[panelId ] = 100.f;
-                panelHeightPercentages[panelId + DOCK_MAX_COLUMN_COUNT ] = 0.0d;
+                panelHeightPercentages[panelId + DOCK_MAX_COLUMN_COUNT ] = 0.0;
             }
             else
             {
                 panelHeightPercentages[panelId ] = 100.f;
-                panelHeightPercentages[panelId - DOCK_MAX_COLUMN_COUNT ] = 0.0d;
+                panelHeightPercentages[panelId - DOCK_MAX_COLUMN_COUNT ] = 0.0;
             }
         }
         else if( panelHeightPercentages[panelId ] <= 20.f )
@@ -705,7 +705,7 @@ int gpeEditorDock::handle_resizing()
                                 //Only going to interact with the panel on the immediate left
                                 panelResizeDifference = (currentPanelX - gpe::input->mouse_position_x - pawgui::padding_default );
 
-                                panelResizeDifference = (float)panelResizeDifference / (  dockWidthMinusColumnPadding / 100.000000d);
+                                panelResizeDifference = (float)panelResizeDifference / (  dockWidthMinusColumnPadding / 100.000000);
                                 if( panelResizeDifference >= 0.0001 )
                                 {
                                     panelWidthPercentages[ columnBeingResizedId ] +=  panelResizeDifference;
@@ -727,7 +727,7 @@ int gpeEditorDock::handle_resizing()
                                 panelResizeDifference = ( gpe::input->mouse_position_x - currentPanelX );
 
                                 //Panel resizing only is between two panels, so let's calculate the differences;
-                                panelResizeDifference = (float)panelResizeDifference / (  dockWidthMinusColumnPadding / 100.00000d);
+                                panelResizeDifference = (float)panelResizeDifference / (  dockWidthMinusColumnPadding / 100.00000);
                                 if( panelResizeDifference >= 0.0001 )
                                 {
                                     panelWidthPercentages[ columnBeingResizedId ] -=  panelResizeDifference;

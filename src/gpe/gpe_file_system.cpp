@@ -37,39 +37,21 @@ SOFTWARE.
 
 namespace gpe
 {
-    std::string generate_filters(const std::vector<GPE_FileFilter *> filters)
-    {
-        std::string result ="";
-        GPE_FileFilter * tempFilter = NULL;
-        for(int i = 0; i < (int)filters.size(); i++)
-        {
-            tempFilter = filters[i];
-            if( tempFilter!=NULL)
-            {
-                result += tempFilter->desc;
-                result += '\0';
-                result += tempFilter->exts;
-                result += '\0';
-            }
-        }
-        return result + '\0';
-    }
-
-    std::string parse_file_types(std::string allowedFileTypes,std::vector <std::string> &fileTypeVector)
+    std::string parse_file_types(std::string allowedFileTypes, std::vector <std::string> &fileTypeVector)
     {
         fileTypeVector.clear();
-        std::string returnFileFilterString = "All types(*.*)\0*.*\0";
+        std::string returnFileFilterString = "All Files (*.*)|*.*";
         std::vector<GPE_FileFilter *> filters;
         GPE_FileFilter * tempNewFilter = NULL;
         if( (int)allowedFileTypes.size() > 0)
         {
-            if( allowedFileTypes=="All types(*.*)" ||  allowedFileTypes=="All Files" || allowedFileTypes=="None" ||  allowedFileTypes=="All Files*")
+            if( allowedFileTypes=="All Files (*.*)" ||  allowedFileTypes=="All Files" || allowedFileTypes=="None" ||  allowedFileTypes=="")
             {
                 fileTypeVector.clear();
             }
             else if( allowedFileTypes=="Image Only" || allowedFileTypes=="Image" || allowedFileTypes=="Images" || allowedFileTypes=="Photos")
             {
-                tempNewFilter = new GPE_FileFilter("Images (*.bmp | *.png | *.jpg)", "*.bmp;*.png;*.jpg");
+                tempNewFilter = new GPE_FileFilter("Image Files (*.bmp *.png *.jpg)", "*.bmp;*.png;*.jpg");
                 filters.push_back(tempNewFilter );
                 fileTypeVector.push_back("bmp");
                 fileTypeVector.push_back("BMP");
@@ -81,9 +63,12 @@ namespace gpe
                 fileTypeVector.push_back("JPEG");
                 fileTypeVector.push_back("png");
                 fileTypeVector.push_back("PNG");
+                returnFileFilterString = "Image Files (*.bmp *.png *.jpg)|*.bmp;*.BMP;*.gif;*.GIF;*.jpg;*.JPG;*.jpeg;*.JPEG;*.png;*.PNG|";
             }
             else if( allowedFileTypes=="Audio Only" || allowedFileTypes=="Audio")
             {
+                tempNewFilter = new GPE_FileFilter("Audio (*.aac *.mp3 *.ogg *.wav)", "*.aac;*.mp3;*.ogg;*.wav");
+                filters.push_back(tempNewFilter );
                 fileTypeVector.push_back("aac");
                 fileTypeVector.push_back("AAC");
                 fileTypeVector.push_back("mp3");
@@ -92,13 +77,11 @@ namespace gpe
                 fileTypeVector.push_back("OGG");
                 fileTypeVector.push_back("wav");
                 fileTypeVector.push_back("WAV");
-
-                tempNewFilter = new GPE_FileFilter("Audio (*.aac | *.mp3 | *.ogg| *.wav)", "*.aac;*.mp3;*.ogg;*.wav");
-                filters.push_back(tempNewFilter );
+                returnFileFilterString = "Audio Files (*.aac *.mp3 *.ogg *.wav)|*.aac;*.AAC;*.mp3;*.MP3;*.ogg;*.OGG;*.wav;*.WAV|";
             }
             else if( allowedFileTypes=="Video Only" || allowedFileTypes=="Video" || allowedFileTypes=="Videos")
             {
-                tempNewFilter = new GPE_FileFilter("Video (*.mp4 | *.ogg| *.webm)", "*.mp4;*.ogg;*.webm");
+                tempNewFilter = new GPE_FileFilter("Video (*.mp4 *.ogg *.webm)", "*.mp4;*.ogg;*.webm");
                 filters.push_back(tempNewFilter );
                 fileTypeVector.push_back("mp4");
                 fileTypeVector.push_back("MP4");
@@ -106,10 +89,11 @@ namespace gpe
                 fileTypeVector.push_back("OGG");
                 fileTypeVector.push_back("webm");
                 fileTypeVector.push_back("WEBM");
+                returnFileFilterString = "Video Files (*.mp4 *.ogg *.webm)|*.mp4;*.MP4;*.ogg;*.OGG;*.webm;*.WEBM|";
             }
             else if( allowedFileTypes=="Fonts Only" || allowedFileTypes=="Font" || allowedFileTypes=="Fonts")
             {
-                tempNewFilter = new GPE_FileFilter("Fonts (*.eot | *.svg| *.ttf)", "*.eot;*.svg;*.ttf");
+                tempNewFilter = new GPE_FileFilter("Fonts (*.eot *.svg *.ttf)", "*.eot;*.svg;*.ttf");
                 filters.push_back(tempNewFilter );
                 fileTypeVector.push_back("eot");
                 fileTypeVector.push_back("EOT");
@@ -117,11 +101,15 @@ namespace gpe
                 fileTypeVector.push_back("SVG");
                 fileTypeVector.push_back("ttf");
                 fileTypeVector.push_back("TTF");
+                returnFileFilterString = "Font Files (*.eot *.svg *.ttf)|eot;EOT;svg;SVG;ttf;TTF|";
             }
             else if( allowedFileTypes=="Game Pencil Projects" || allowedFileTypes=="GPE Project")
             {
                 tempNewFilter = new GPE_FileFilter("Game Pencil Projects (*.gppf)", "*.gppf");
+                filters.push_back(tempNewFilter );
                 fileTypeVector.push_back("gppf");
+                fileTypeVector.push_back("GPPF");
+                returnFileFilterString = "Game Pencil Projects (*.gppf)|*.gppf;*.GPPF|";
             }
             else if( allowedFileTypes.size() > 2)
             {
@@ -145,7 +133,6 @@ namespace gpe
         }
         tempNewFilter = new GPE_FileFilter("All Files (*.*)", "*.*");
         filters.push_back(tempNewFilter );
-        returnFileFilterString = generate_filters(filters);
         for( int iDelete = (int)filters.size()-1; iDelete>=0; iDelete--)
         {
             tempNewFilter = filters.at(iDelete);
@@ -156,6 +143,7 @@ namespace gpe
             }
         }
         filters.clear();
+        returnFileFilterString += "All Files (*.*)|*.*";
         return returnFileFilterString;
     }
 

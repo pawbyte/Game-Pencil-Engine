@@ -32,7 +32,10 @@ SOFTWARE.
 */
 
 #if defined(_WIN32) || (defined(__APPLE__) && defined(__MACH__)) || (defined(__linux__) && !defined(__ANDROID__)) || defined(__FreeBSD__)
-#include "../other_libs/dlgmodule.h"
+    #include <cstring>
+    #include <SDL2/SDL_syswm.h>
+    #include "../other_libs/dlgmodule.h"
+    #include "../sdl_libs/gpe_window_controller_sdl.h"
 #endif
 
 #include "pawgui_file_popups.h"
@@ -68,7 +71,7 @@ namespace pawgui
         std::string nextDirectoryToView = "";
         std::string soughtReturnFilename = "";
         std::string userHomePath = "";
-        std::string  osFileFilterString = "All types(*.*)\0*.*\0";
+        std::string  osFileFilterString = "All types(*.*)|*.*";
         int filesAndDirectoryPassedFilterCount = 16;
         int maxCharsToView = 16;
         bool fileMatchesFilter = false;
@@ -180,8 +183,8 @@ namespace pawgui
             fileRenderName[1] = "";
             fileRenderName[2] = "";
             std::vector <std::string> mountedDriversList;
-            widget_dropdown_menu * fileTypeDropDown = new widget_dropdown_menu( "All types(*.*)",false);
-            osFileFilterString = gpe::parse_file_types(allowedFileTypes,fileFilterTypes);
+            widget_dropdown_menu * fileTypeDropDown = new widget_dropdown_menu( "All Files (*.*)",false);
+            gpe::parse_file_types(allowedFileTypes,fileFilterTypes);
             std::string tempFileType = "";
             for( int fDT = 0; fDT < (int)fileFilterTypes.size(); fDT++)
             {
@@ -289,18 +292,43 @@ namespace pawgui
             gpe::error_log->report("Attempting to open file selection menu...");
             //The lovely file selector loop
             nextDirectoryToView = currentDirectoryInView;
-    #if defined(_WIN32) || (defined(__APPLE__) && defined(__MACH__)) || (defined(__linux__) && !defined(__ANDROID__)) || defined(__FreeBSD__)
-            if (!isDirectorySearch) {
-                widget_set_icon((char *)"resources/gamepencil_icon_300dpi.png");
-                std::replace(allowedFileTypes.begin(), allowedFileTypes.end(), '\0', '|');
-                if (!isSaving) {
-                    returnFile = get_open_filename_ext((char *)allowedFileTypes.c_str(), (char *)"", (char *)previousDirectory.c_str(), (char *)prompt.c_str());
-                } else {
-                    returnFile = get_save_filename_ext((char *)allowedFileTypes.c_str(), (char *)"", (char *)previousDirectory.c_str(), (char *)prompt.c_str());
+        #if defined(_WIN32) || (defined(__APPLE__) && defined(__MACH__)) || (defined(__linux__) && !defined(__ANDROID__)) || defined(__FreeBSD__)
+            if (!isDirectorySearch)
+            {
+                std::vector<std::string> fileFilterTypes;
+                std::string osFileFilterString = gpe::parse_file_types(allowedFileTypes, fileFilterTypes);
+                #if defined(_WIN32) || (defined(__linux__) && !defined(__ANDROID__)) || defined(__FreeBSD__)
+                    SDL_SysWMinfo wmInfo;
+                    SDL_VERSION(&wmInfo.version);
+                    SDL_GetWindowWMInfo(gpe::window_controller_main_sdl->get_sdl_window(), &wmInfo);
+                    #if defined(_WIN32)
+                        widget_set_owner((char *)std::to_string((unsigned long long)wmInfo.info.win.window).c_str());
+                    #elif (defined(__linux__) && !defined(__ANDROID__)) || defined(__FreeBSD__)
+                        widget_set_owner((char *)std::to_string((unsigned long long)wmInfo.info.x11.window).c_str());
+                    #endif
+                #endif
+                widget_set_icon((char *)"icon.png");
+                if (!osFileFilterString.empty() && osFileFilterString.back() == '|')
+                    osFileFilterString.pop_back();
+                if (!isSaving)
+                {
+                    returnFile = get_open_filename_ext((char *)osFileFilterString.c_str(), (char *)"", (char *)previousDirectory.c_str(), (char *)prompt.c_str());
                 }
+                else
+                {
+                    returnFile = get_save_filename_ext((char *)osFileFilterString.c_str(), (char *)"", (char *)previousDirectory.c_str(), (char *)prompt.c_str());
+                }
+            }
+            std::string widget_system = widget_get_system();
+            if (widget_system == "Zenity" && (sff_ex::file_exists("/usr/bin/zenity") || sff_ex::file_exists("/usr/local/bin/zenity")))
+            {
                 exitOperation = true;
             }
-    #endif
+            else if (widget_system == "KDialog" && (sff_ex::file_exists("/usr/bin/kdialog") || sff_ex::file_exists("/usr/local/bin/kdialog")))
+            {
+                exitOperation = true;
+            }
+        #endif
 
             gpe::texture_base * currentFIleTexture = NULL;
             gpe::texture_base * textRepFolder = rsm_gui->texture_add("folderOpen", gpe::app_directory_name+"resources/gfx/iconpacks/fontawesome/folder-open.png");
@@ -747,24 +775,6 @@ namespace pawgui
                     else if( gpe::system_found_os == gpe::system_os_windows)
                     {
                         enterMyComputerMode = true;
-    #ifdef _WIN32
-
-                        DWORD dwSize = MAX_PATH;
-                        char szLogicalDrives[MAX_PATH] = {0};
-                        DWORD dwResult = GetLogicalDriveStrings(dwSize,szLogicalDrives);
-
-                        if (dwResult > 0 && dwResult <= MAX_PATH)
-                        {
-                            char* szSingleDrive = szLogicalDrives;
-                            while(*szSingleDrive)
-                            {
-                                mountedDriversList.push_back(szSingleDrive);
-
-                                // get the next drive
-                                szSingleDrive += strlen(szSingleDrive) + 1;
-                            }
-                        }
-    #endif
                     }
                     nextDirectoryToView = "";
                     directoryViewBox->set_string("My Computer");
@@ -912,7 +922,6 @@ namespace pawgui
 
                         /*if( maxContentInView >8)
                         {
-
                         }
                         scrollAmount = */
                         //if( directoryViewBox->is_inuse()==false && newStringBox->is_inuse()==false && shortCutGList->hasScrollControl==false)
@@ -1461,4 +1470,3 @@ namespace pawgui
         return returnFile;
     }
 }
-
