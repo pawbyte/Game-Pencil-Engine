@@ -426,6 +426,8 @@
 			<Option target="Win32-Debug" />
 			<Option target="Win32-Release" />
 		</Unit>
+		<Unit filename="src/other_libs/filemanager.h " />
+		<Unit filename="src/other_libs/filemanager/filemanager.cpp" />
 		<Unit filename="src/other_libs/semath.cpp" />
 		<Unit filename="src/other_libs/semath.h" />
 		<Unit filename="src/other_libs/sff_ex.cpp" />
