@@ -1,5 +1,6 @@
 # build files
 build/
+bin/
 
 **/*.o
 Game_Pencil_Engine_IDE
